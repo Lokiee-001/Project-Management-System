@@ -1,0 +1,665 @@
+{% extends "base.html" %}
+
+{% block title %}AI Project Summary{% endblock %}
+
+{% block content %}
+
+<div class="summary-container">
+    <!-- Header with animated icon -->
+    <div class="summary-header mb-4">
+        <div class="header-icon">
+            <i class="bi bi-stars"></i>
+        </div>
+        <h3>AI Project Progress</h3>
+        <p class="text-muted">Intelligent insights and analytics for {{ project.name }}</p>
+    </div>
+
+    <!-- Main Summary Card -->
+    <div class="card summary-card p-4">
+
+        <!-- Project Info -->
+        <div class="project-info mb-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                    <h4>
+                        <i class="bi bi-kanban me-2" style="color: #667eea;"></i>
+                        {{ project.name }}
+                    </h4>
+                    <p class="project-description">
+                        {% if project.description %}
+                            {{ project.description }}
+                        {% else %}
+                            <span class="text-muted fst-italic">No description provided</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="project-badge">
+                    <span class="badge bg-light text-dark">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        Active Project
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Progress Section -->
+        <div class="progress-section mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <h5 class="mb-0">
+                    <i class="bi bi-pie-chart-fill me-2" style="color: #667eea;"></i>
+                    Completion Progress
+                </h5>
+                <span class="progress-percentage">{{ percent }}% Complete</span>
+            </div>
+
+            <!-- Enhanced Progress Bar -->
+            <div class="progress-wrapper">
+                <div class="progress progress-custom">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-gradient"
+                        role="progressbar"
+                        data-percent="{{ percent }}"
+                        aria-valuenow="{{ percent }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                        {% if percent >= 20 %}{{ percent }}%{% endif %}
+                    </div>
+                </div>
+                {% if percent < 20 %}
+                    <span class="progress-mini-label">{{ percent }}%</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-section mb-4">
+            <h5 class="mb-3">
+                <i class="bi bi-grid-3x3-gap-fill me-2" style="color: #667eea;"></i>
+                Task Statistics
+            </h5>
+            
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <div class="stat-card total">
+                        <div class="stat-icon">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+                        <div class="stat-details">
+                            <span class="stat-label">Total Tasks</span>
+                            <span class="stat-value">{{ total }}</span>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="bi bi-arrow-up"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card completed">
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="stat-details">
+                            <span class="stat-label">Completed</span>
+                            <span class="stat-value">{{ completed }}</span>
+                        </div>
+                        {% if total > 0 %}
+                            <div class="stat-percentage">
+                                {{ (completed/total*100)|round|int }}%
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card in-progress">
+                        <div class="stat-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <div class="stat-details">
+                            <span class="stat-label">In Progress</span>
+                            <span class="stat-value">{{ in_progress }}</span>
+                        </div>
+                        {% if total > 0 %}
+                            <div class="stat-percentage">
+                                {{ (in_progress/total*100)|round|int }}%
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card pending">
+                        <div class="stat-icon">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <div class="stat-details">
+                            <span class="stat-label">Pending</span>
+                            <span class="stat-value">{{ todo }}</span>
+                        </div>
+                        {% if total > 0 %}
+                            <div class="stat-percentage">
+                                {{ (todo/total*100)|round|int }}%
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- AI Insight Section -->
+        <div class="insight-section mt-3">
+            <div class="insight-header">
+                <i class="bi bi-robot"></i>
+                <span>AI Project Analysis</span>
+            </div>
+            
+            <div class="insight-content">
+                <div class="insight-icon">
+                    <i class="bi bi-chat-dots-fill"></i>
+                </div>
+                <div class="insight-text">
+                    <strong>AI Insight:</strong>
+                    <p>{{ insight }}</p>
+                </div>
+            </div>
+
+            <!-- Additional insights based on progress -->
+            <div class="insight-meta">
+                {% if percent == 100 %}
+                    <span class="meta-tag success">
+                        <i class="bi bi-trophy-fill"></i> Project Completed! 🎉
+                    </span>
+                {% elif percent >= 75 %}
+                    <span class="meta-tag info">
+                        <i class="bi bi-rocket-takeoff"></i> Almost there!
+                    </span>
+                {% elif percent >= 50 %}
+                    <span class="meta-tag warning">
+                        <i class="bi bi-graph-up"></i> Halfway there!
+                    </span>
+                {% elif percent >= 25 %}
+                    <span class="meta-tag primary">
+                        <i class="bi bi-play-fill"></i> Good progress!
+                    </span>
+                {% else %}
+                    <span class="meta-tag secondary">
+                        <i class="bi bi-hourglass-split"></i> Just getting started
+                    </span>
+                {% endif %}
+
+                {% if todo == 0 and in_progress == 0 and completed > 0 %}
+                    <span class="meta-tag success">
+                        <i class="bi bi-check-all"></i> All tasks completed!
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons mt-4">
+            <a href="{{ url_for('view_project', project_id=project.id) }}" 
+               class="btn btn-outline-primary">
+                <i class="bi bi-folder2-open"></i>
+                View Project Details
+            </a>
+            
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-primary">
+                <i class="bi bi-house-door"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* Additional styles specific to summary page */
+    .summary-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .summary-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .header-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .header-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .summary-header h3 {
+        font-weight: 700;
+        color: #2d3748;
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+    }
+
+    .summary-card {
+        border: none;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    }
+
+    .project-info h4 {
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .project-description {
+        color: #5f6b7a;
+        line-height: 1.6;
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
+    }
+
+    .project-badge .badge {
+        padding: 0.6rem 1.2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        background: #f7fafc !important;
+        border: 2px solid #e2e8f0;
+    }
+
+    .divider {
+        margin: 2rem 0;
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    }
+
+    .progress-section h5 {
+        color: #2d3748;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .progress-percentage {
+        font-weight: 600;
+        color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+        padding: 0.3rem 1rem;
+        border-radius: 30px;
+        font-size: 0.9rem;
+    }
+
+    .progress-wrapper {
+        position: relative;
+        margin-top: 1rem;
+    }
+
+    .progress-custom {
+        height: 30px;
+        border-radius: 20px;
+        background: #e9ecef;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .progress-custom .progress-bar {
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        line-height: 30px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* Gradient moved to a dedicated class to avoid inline CSS parsing issues */
+    .progress-bar-gradient {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    /* Width is set inline on the progress bar (percent encoded to avoid CSS parsing issues) */
+
+    .progress-mini-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #667eea;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    }
+
+    /* Modern Stat Cards */
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem 1rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        border-color: #667eea;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-card.total .stat-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .stat-card.completed .stat-icon { background: linear-gradient(135deg, #28a745, #20c997); }
+    .stat-card.in-progress .stat-icon { background: linear-gradient(135deg, #ffc107, #fd7e14); }
+    .stat-card.pending .stat-icon { background: linear-gradient(135deg, #dc3545, #c82333); }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .stat-details {
+        flex: 1;
+        margin-left: 1rem;
+    }
+
+    .stat-label {
+        display: block;
+        color: #5f6b7a;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.2rem;
+    }
+
+    .stat-value {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2d3748;
+        line-height: 1;
+    }
+
+    .stat-percentage {
+        background: #f8fafc;
+        padding: 0.3rem 0.8rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #667eea;
+        border: 2px solid #e9ecef;
+    }
+
+    .stat-trend {
+        color: #28a745;
+        font-size: 1.2rem;
+    }
+
+    /* AI Insight Section */
+    .insight-section {
+        background: linear-gradient(135deg, #f8fafc, #f1f4f8);
+        border-radius: 20px;
+        padding: 1.5rem;
+        border: 2px solid #e2e8f0;
+    }
+
+    .insight-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .insight-header i {
+        font-size: 2rem;
+        color: #667eea;
+        margin-right: 10px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .insight-header span {
+        font-weight: 700;
+        color: #2d3748;
+        font-size: 1.2rem;
+    }
+
+    .insight-content {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .insight-icon {
+        flex-shrink: 0;
+    }
+
+    .insight-icon i {
+        font-size: 2rem;
+        color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+        padding: 1rem;
+        border-radius: 15px;
+    }
+
+    .insight-text {
+        flex: 1;
+    }
+
+    .insight-text strong {
+        display: block;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .insight-text p {
+        color: #5f6b7a;
+        line-height: 1.7;
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .insight-meta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .meta-tag {
+        padding: 0.5rem 1.2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .meta-tag i {
+        font-size: 1rem;
+    }
+
+    .meta-tag.success {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+
+    .meta-tag.info {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .meta-tag.warning {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+
+    .meta-tag.primary {
+        background: rgba(0, 123, 255, 0.1);
+        color: #007bff;
+        border: 1px solid rgba(0, 123, 255, 0.2);
+    }
+
+    .meta-tag.secondary {
+        background: rgba(108, 117, 125, 0.1);
+        color: #6c757d;
+        border: 1px solid rgba(108, 117, 125, 0.2);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .action-buttons .btn {
+        padding: 0.8rem 2rem;
+        border-radius: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #667eea;
+        color: #667eea;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .summary-header h3 {
+            font-size: 1.6rem;
+        }
+
+        .stat-card {
+            padding: 1rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .insight-content {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .insight-icon {
+            text-align: center;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .action-buttons .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .meta-tag {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+{% endblock %}
+
+<script>
+    (function(){
+        // Set progress-bar width at runtime to avoid HTML/CSS parser issues with templating
+        var el = document.querySelector('.progress-bar-gradient');
+        if(el && el.dataset && el.dataset.percent){
+            el.style.width = el.dataset.percent + '%';
+        }
+    })();
+</script>

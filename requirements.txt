@@ -1,0 +1,10 @@
+
+Flask>=2.2.5
+Flask-Login>=0.6.2
+Flask-SQLAlchemy>=3.0.3
+SQLAlchemy>=1.4
+python-dotenv>=1.0.0
+Werkzeug>=2.2.3
+
+# Optional (useful for production deployments)
+# gunicorn>=20.1.0

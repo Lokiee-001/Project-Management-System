@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Developer | AI Project Management</title>
+    
+    <!-- Bootstrap & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        /* Modern Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #1a2639 0%, #2c3e50 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-brand i {
+            background: none;
+            -webkit-text-fill-color: #4dabf7;
+            margin-right: 8px;
+            font-size: 1.6rem;
+        }
+        
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+        }
+        
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        .nav-link.active {
+            color: white !important;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+        
+        .btn-danger i {
+            margin-right: 8px;
+        }
+        
+        /* Main Container */
+        .developer-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Developer Card */
+        .developer-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .developer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .profile-image-wrapper {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .profile-image-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-image-placeholder i {
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .profile-header h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .profile-title {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-title i {
+            margin-right: 8px;
+        }
+        
+        /* Profile Body */
+        .profile-body {
+            padding: 2.5rem;
+        }
+        
+        .info-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title i {
+            font-size: 1.8rem;
+            margin-right: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-title h4 {
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .info-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .info-label {
+            display: block;
+            color: #5f6b7a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            display: block;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        /* Bio Section */
+        .bio-section {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        
+        .bio-section p {
+            color: #5f6b7a;
+            line-height: 1.7;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        /* Skills Section */
+        .skills-section {
+            margin-bottom: 2rem;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6b7a;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 15px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 15px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary i, .btn-outline-primary i {
+            margin-right: 8px;
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            padding: 1.5rem 0;
+            border-top: 2px solid #e2e8f0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            display: block;
+            color: #5f6b7a;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-body {
+                padding: 1.5rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark">
+    <div class="container-fluid px-4">
+        <span class="navbar-brand">
+            <i class="bi bi-robot"></i>
+            AI Project Management
+        </span>
+
+        <div class="d-flex align-items-center">
+            <div class="navbar-nav">
+                <a href="{{ url_for('developer') }}" class="nav-link active">
+                    <i class="bi bi-person-badge"></i>
+                    <span class="d-none d-md-inline ms-1">Developer</span>
+                </a>
+            </div>
+            
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="developer-container">
+    <!-- Developer Card -->
+    <div class="developer-card">
+        
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-image-wrapper">
+                <div class="profile-image">
+                    <!-- Option 1: If you have an actual image -->
+                    <!-- <img src="{{ url_for('static', filename='images/developer.jpg') }}" alt="Developer"> -->
+                    
+                    <!-- Option 2: Placeholder with icon -->
+                    <div class="profile-image-placeholder">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Lokeshwar</h2>
+            <div class="profile-title">
+                <i class="bi bi-code-slash"></i>
+                Full Stack Developer & AI Enthusiast
+            </div>
+        </div>
+        
+        <!-- Profile Body -->
+        <div class="profile-body">
+            
+            <!-- Quick Info Grid -->
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <span class="info-label">Email</span>
+                    <span class="info-value">lamlokeshwar010@gmail.com</span>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-github"></i>
+                    </div>
+                    <span class="info-label">GitHub</span>
+                    <span class="info-value">Lokiee-001</span>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-linkedin"></i>
+                    </div>
+                    <span class="info-label">LinkedIn</span>
+                    <span class="info-value">/in/Lam Lokeshwar</span>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <span class="info-label">Location</span>
+                    <span class="info-value">Andhra Pradesh, India</span>
+                </div>
+            </div>
+            
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number">Fresher</span>
+                    <span class="stat-label">Passout-2026 </span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">11</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number"></span>
+                    <span class="stat-label"></span>
+                </div>
+            </div>
+            
+            <!-- Bio Section -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-person-badge"></i>
+                    <h4>About Me</h4>
+                </div>
+                
+                <div class="bio-section">
+                    <p>
+                        Passionate Full Stack Developer with over 5 years of experience in building 
+                        web applications and AI-powered solutions. Specialized in Python, Flask, 
+                        and modern JavaScript frameworks. I love creating intuitive user interfaces 
+                        and robust backend systems that solve real-world problems.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Skills Section -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-code-square"></i>
+                    <h4>Technical Skills</h4>
+                </div>
+                
+                <div class="skills-section">
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">AI Integration</span>
+
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projects Section -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-kanban"></i>
+                    <h4>Featured Projects</h4>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">AI Project Management</span>
+                        <span class="info-value">Current Project</span>
+                        <p class="mt-2 small text-muted">AI-powered system for managing projects with intelligent insights</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Smart Hiring Platformn</span>
+                        <span class="info-value">2024</span>
+                        <p class="mt-2 small text-muted">Full-stack Ai Resume analysis </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="https://github.com/Lokiee-001" class="social-link" target="_blank">
+                    <i class="bi bi-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/lam-lokeshwar-730bb12a0?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="social-link" target="_blank">
+                    <i class="bi bi-linkedin"></i>
+                
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="mailto:lamlokeshwar010@gmail.com" class="btn btn-outline-primary">
+                    <i class="bi bi-envelope"></i>
+                    Send Email
+                </a>
+                
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                    <i class="bi bi-house-door"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

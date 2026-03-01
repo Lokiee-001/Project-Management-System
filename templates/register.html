@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register | AI Project Management</title>
+    
+    <!-- Bootstrap & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Card styling */
+        .card {
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            animation: slideUp 0.6s ease-out;
+            width: 420px;
+            padding: 2rem !important;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Header with icon */
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .register-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3);
+        }
+        
+        .register-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        h3 {
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .welcome-text {
+            color: #718096;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        /* Flash Messages */
+        .alert {
+            border: none;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .alert i {
+            margin-right: 10px;
+        }
+        
+        /* Form labels */
+        .form-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 8px;
+            color: #11998e;
+            font-size: 1rem;
+        }
+        
+        /* Input fields */
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        
+        .form-control:focus {
+            border-color: #11998e;
+            box-shadow: 0 0 0 4px rgba(17, 153, 142, 0.1);
+            background: white;
+        }
+        
+        .form-control::placeholder {
+            color: #a0aec0;
+            font-size: 0.95rem;
+        }
+        
+        /* Password strength indicator (optional enhancement) */
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+        }
+        
+        /* Register button */
+        .btn-success {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-success::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(17, 153, 142, 0.4);
+        }
+        
+        .btn-success:hover::before {
+            left: 100%;
+        }
+        
+        .btn-success i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Divider */
+        hr {
+            margin: 2rem 0 1.5rem;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        }
+        
+        /* Login link */
+        .login-text {
+            text-align: center;
+            color: #718096;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .login-text a {
+            color: #11998e;
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .login-text a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            transition: width 0.3s ease;
+        }
+        
+        .login-text a:hover {
+            color: #38ef7d;
+        }
+        
+        .login-text a:hover::after {
+            width: 100%;
+        }
+        
+        /* Terms and conditions */
+        .terms {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+        
+        .terms i {
+            margin-right: 8px;
+            color: #11998e;
+        }
+        
+        /* Features list */
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            color: #a0aec0;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-item i {
+            margin-right: 5px;
+            color: #11998e;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                width: 90%;
+                padding: 1.5rem !important;
+            }
+            
+            h3 {
+                font-size: 1.75rem;
+            }
+            
+            .register-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .register-icon i {
+                font-size: 2rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        /* Loading state for button */
+        .btn-success.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        .btn-success.loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+
+    <div class="card shadow-lg">
+
+        <!-- Icon and Header -->
+        <div class="register-header">
+            <div class="register-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+            <h3>Create Account</h3>
+            <p class="welcome-text">Join AI Project Management today</p>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" id="registerForm">
+
+            <div class="mb-4">
+                <label class="form-label">
+                    <i class="bi bi-person-fill"></i>
+                    Username
+                </label>
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       placeholder="Choose a username"
+                       required
+                       autocomplete="username"
+                       minlength="3">
+                <div class="form-text text-muted small">
+                    <i class="bi bi-info-circle"></i>
+                    Minimum 3 characters
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">
+                    <i class="bi bi-lock-fill"></i>
+                    Password
+                </label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Create a password"
+                       required
+                       autocomplete="new-password"
+                       minlength="6"
+                       id="passwordInput">
+                <div class="form-text text-muted small">
+                    <i class="bi bi-shield-check"></i>
+                    Minimum 6 characters
+                </div>
+                <!-- Optional password strength indicator (visual only) -->
+                <div class="password-strength">
+                    <div class="password-strength-bar" id="passwordStrength"></div>
+                </div>
+            </div>
+
+            <!-- Optional confirm password field (if your backend supports it) 
+            <div class="mb-4">
+                <label class="form-label">
+                    <i class="bi bi-lock-fill"></i>
+                    Confirm Password
+                </label>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Confirm your password"
+                       id="confirmPassword">
+            </div>
+            -->
+
+            <button type="submit" class="btn btn-success w-100" id="registerButton">
+                <i class="bi bi-person-plus"></i>
+                Create Account
+            </button>
+
+            <!-- Terms and conditions -->
+            <div class="terms">
+                <i class="bi bi-shield-check"></i>
+                By signing up, you agree to our Terms and Privacy Policy
+            </div>
+
+        </form>
+
+        <hr>
+
+        <p class="login-text">
+            Already have an account?
+            <a href="{{ url_for('login') }}">
+                Sign In <i class="bi bi-arrow-right"></i>
+            </a>
+        </p>
+
+        <!-- Features -->
+        <div class="features">
+            <span class="feature-item">
+                <i class="bi bi-check-circle-fill"></i>
+                Free forever
+            </span>
+            <span class="feature-item">
+                <i class="bi bi-check-circle-fill"></i>
+                AI-powered
+            </span>
+            <span class="feature-item">
+                <i class="bi bi-check-circle-fill"></i>
+                Secure
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Optional JavaScript for loading animation and password strength -->
+<script>
+    document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+        const button = document.getElementById('registerButton');
+        button.classList.add('loading');
+        button.innerHTML = '<i class="bi bi-arrow-repeat"></i> Creating Account...';
+    });
+
+    // Optional password strength indicator (visual only, no functionality change)
+    const passwordInput = document.getElementById('passwordInput');
+    const strengthBar = document.getElementById('passwordStrength');
+    
+    if (passwordInput && strengthBar) {
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            if (password.length >= 6) strength += 25;
+            if (password.length >= 8) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                strengthBar.style.background = '#dc3545';
+            } else if (strength <= 50) {
+                strengthBar.style.background = '#ffc107';
+            } else if (strength <= 75) {
+                strengthBar.style.background = '#17a2b8';
+            } else {
+                strengthBar.style.background = '#28a745';
+            }
+        });
+    }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
